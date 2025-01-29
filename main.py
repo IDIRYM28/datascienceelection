@@ -56,20 +56,26 @@ plt.title("Matrice de Corrélation entre les Variables")
 plt.show()
 # Graphiques
 ## Graphique en barres - Taux de participation par département
-plt.figure(figsize=(12, 6))
-df_final.sort_values('% Vot/Ins_x', ascending=False).head(10).plot.bar(x='Libellé du département', y='% Vot/Ins_x', legend=False)
-plt.title("Taux de Participation par Département")
-plt.ylabel("% Participation")
-plt.xticks(rotation=90)
+# Graphiques en une seule figure
+fig, axes = plt.subplots(2, 1, figsize=(12, 10))
+
+# Graphique en barres - Taux de participation par département
+df_final.sort_values('% Vot/Ins_x', ascending=False).head(10).plot.bar(
+    x='Libellé du département', y='% Vot/Ins_x', ax=axes[0], legend=False, color='blue')
+axes[0].set_title("Taux de Participation par Département")
+axes[0].set_ylabel("% Participation")
+axes[0].tick_params(axis='x', rotation=45)
+
+# Graphique en barres - Taux de pauvreté par département
+df_final.sort_values('Taux de pauvreté', ascending=False).head(10).plot.bar(
+    x='Libellé du département', y='Taux de pauvreté', ax=axes[1], legend=False, color='red')
+axes[1].set_title("Taux de Pauvreté par Département")
+axes[1].set_ylabel("% Pauvreté")
+axes[1].tick_params(axis='x', rotation=45)
+
+plt.tight_layout()
 plt.show()
 
-## Graphique en barres - Taux de pauvreté par département
-plt.figure(figsize=(12, 6))
-df_final.sort_values('Taux de pauvreté', ascending=False).head(10).plot.bar(x='Libellé du département', y='Taux de pauvreté', legend=False)
-plt.title("Taux de Pauvreté par Département")
-plt.ylabel("% Pauvreté")
-plt.xticks(rotation=90)
-plt.show()
 ## Nuages de points - Corrélation entre taux de pauvreté et vote
 plt.figure(figsize=(8, 6))
 sns.scatterplot(x=df_final['Taux de pauvreté'], y=df_final['% Voix/Ins Candidat 2'])
@@ -80,7 +86,7 @@ plt.show()
 
 
 ## Graphique linéaire - Taux de participation par département
-df_final.sort_values('% Vot/Ins_x').plot(x='Code du département', y='% Vot/Ins_x', kind='line', marker='o')
+df_final.sort_values('% Vot/Ins_x',ascending=False).head(10).plot.bar(x='Libellé du département', y='Taux de pauvreté', legend=False)
 plt.title("Évolution du taux de participation par département")
 plt.ylabel("% Participation")
 plt.xticks(rotation=90)
